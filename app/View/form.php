@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +32,7 @@
         <section class=" flex flex-row justify-evenly items-center h-screen">
             <?php if (!isset($_GET['step']) || $_GET['step'] != "overview") { ?>
                 <form action="../Receiver.php" method="post" class=" flex flex-col max-h-[90vh] w-2/5 bg-zinc-100 gap-1 rounded-xl p-4 items-stretch overflow-auto">
-                    <?php if (isset($_SESSION['data']['error'])) { ?>
+                    <?php if (isset($_SESSION['error'])) { ?>
                         <div role="alert" class="alert alert-error p-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -121,7 +122,7 @@
                                 <p class="py-4">Save changes and submit your reservation.</p>
                                 <div class="modal-action">
                                     <label for="confirm" class="btn btn-outline btn-error">No</label>
-                                    <button type="submit" name="submit" value="reserve" class=" btn btn-success">Yes</button>
+                                    <button type="submit" name="reserve" class=" btn btn-success">Yes</button>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +172,7 @@
                         <div>
                             <div class=" outline outline-1 outline-slate-950 p-2 flex flex-col h-full justify-between rounded-lg">
                                 <p class=" text-justify">The following information is your reservation inquiry for Sunset City Suites. By clicking <strong class=" text-success">Confirm</strong>, you ensure that all given information is correct and your inquiry is subject for approval. By clicking <strong class=" text-error">Cancel</strong>, this request will be voided and you will be redirected back to the reservation form.</p>
-                                <form action="Controller.php" method="post" class=" flex justify-end gap-4">
+                                <form action="../Receiver.php" method="post" class=" flex justify-end gap-4">
                                     <button onclick="location.href='?'" type="button" class=" btn btn-outline btn-error">Cancel</button>
                                     <button type="submit" name="save" class=" btn btn-success">Confirm</button>
                                 </form>

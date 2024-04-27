@@ -5,8 +5,7 @@
             <li><a href="index.php">Home</a></li>
             <?php
             $page = substr($_SERVER['SCRIPT_NAME'], 1);
-
-            if ($page != "mvc/app/view/form.php") { ?>
+            if ($page != "mvc/app/View/form.php") { ?>
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contacts</a></li>
                 <li><a href="form.php" class=" btn btn-accent">Reserve Now</a></li>

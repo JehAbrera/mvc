@@ -9,7 +9,7 @@ Class Model extends Database {
         $sql = "INSERT INTO reservations VALUES ('', ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $this->db_connect()->prepare($sql);
         $stmt->execute([$name, $phone, $date, $time, $from, $to, $room, $cap, $payment, $days, $sub, $disc, $add, $total, $status]);
-        return header('Location: Home.php');
+        return header('Location: View/success.html');
     }
     // Update //
     public function updateStatus($update, $id)
@@ -17,7 +17,6 @@ Class Model extends Database {
         $sql = "UPDATE reservations SET status = ? WHERE reservationId = ?";
         $stmt = $this->db_connect()->prepare($sql);
         $stmt->execute([$update, $id]);
-        return $this->viewList($update);
     }
 
     // Delete //
@@ -26,6 +25,5 @@ Class Model extends Database {
         $sql = "DELETE FROM reservations WHERE reservationId = ?";
         $stmt = $this->db_connect()->prepare($sql);
         $stmt->execute([$id]);
-        return $this->viewList("Pending");
     }
 }
