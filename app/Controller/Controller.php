@@ -1,27 +1,48 @@
 <?php
 session_start();
 
-class Controller {
-    function dateAuth() : bool {
-        return true;
-    }
-    function phoneAuth() : bool {
-        return true;
-    }
-    function loginAuth() : bool {
-        return true;
-    }
+require_once 'Model/Model.php';
+
+class Controller extends Model {
+
     private $days, $dayRate, $addChar, $subTot, $discRate, $discTot, $addTot, $total;
+    
+    function dateAuth($from, $to) : bool {
+        $start = new \DateTime($from);
+        $end = new \DateTime($to);
+        if ($start >= $end) {
+            return false;
+        }
+        return true;
+    }
+    function phoneAuth($phone) : bool {
+        $justNums = preg_replace("/[^0-9]/", '', $phone);
+
+        if (!preg_match("/^09[0-9]{9}$/", $justNums)) {
+            return false;
+        }
+        return true;
+    }
+    public function loginAuth($username, $pass) {
+        $hash = hash('sha256', $pass);
+        if ($this->checkLogin($username,$hash)) {
+            $_SESSION['isLogged'] = true;
+            return $this->viewList("Pending");
+        } else {
+            $_SESSION['loginErr'] = "Invalid login username or password!";
+            return header('Location: View/login.php');
+        }
+    }
 
     public function computeTotal($name, $phone, $from, $to, $room, $cap, $payment, $datetime)
     {
         if (!$this->phoneAuth($phone)) {
             $_SESSION['error'] = "Invalid phone number";
-            header("Location: ../../View/form.php");
+            return header("Location: View/form.php");
         }
         if (!$this->dateAuth($from, $to)) {
             $_SESSION['error'] = "Invalid date selection";
-            header("Location: ../../View/form.php");
+            return header("Location: View/form.php");
         }
         $arr = explode("-", $datetime);
 
@@ -51,7 +72,7 @@ class Controller {
         ];
 
         $_SESSION['data'] = $data;
-        header('Location: View/form.php?step=overview');
+        return header('Location: View/form.php?step=overview');
 
     }
     protected function setDays($from, $to)
